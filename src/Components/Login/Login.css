@@ -1,6 +1,7 @@
 .loginParentDiv {
     border: 1px solid black;
-    width: max-content;
+    /* width: max-content; */
+    width: min-content;
     padding: 10px;
     position: absolute;
     top: 50%;
@@ -34,5 +35,10 @@
     display: flex;
     justify-content: center;
     cursor: pointer;
+  }
+
+  .error{
+    color: red;
+    width: 100%;
   }
   

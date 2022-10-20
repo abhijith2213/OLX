@@ -6,14 +6,17 @@ import {useHistory} from 'react-router-dom'
 function Login() {
 const [email,setEmail] = useState('')
 const [password,setPassword] = useState('')
+const [formErrors,setFormErrors] = useState({})
 const {firebase} = useContext(FirebaseContext)
 const history = useHistory()
 const handleLogin =(e)=>{
+  const err ={}
     e.preventDefault()
     firebase.auth().signInWithEmailAndPassword(email,password).then(()=>{
       history.push('/')
     }).catch((error)=>{
-      alert(error)
+      err.valid = error.message;
+      setFormErrors(err)
     })
 }
 
@@ -46,6 +49,7 @@ const handleLogin =(e)=>{
             defaultValue="Doe"
           />
           <br />
+          <p className='error'>{formErrors.valid}</p>
           <br />
           <button>Login</button>
         </form>

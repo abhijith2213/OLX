@@ -38,10 +38,13 @@ function Header() {
           <Arrow></Arrow>
         </div>
         <div className="loginPage">
-          <span>{user ? ` ${user.displayName}` : 'Login'}</span>
+          <span>{user ? ` ${user.displayName}` : <span onClick={()=>{
+            history.push('/login')
+          }}>login</span>}</span>
           <hr />
         </div>
           {user && <span onClick={()=>{
+            alert('Are you sure to Logout!!')
             firebase.auth().signOut();
             history.push('/login')
           }}>Logout</span>}

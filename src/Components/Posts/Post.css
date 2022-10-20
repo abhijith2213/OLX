@@ -1,3 +1,10 @@
+body{
+  overflow-x: hidden;
+}
+
+.cards::-webkit-scrollbar{
+  display: none;
+}
 .moreView {
   margin: 16px 16px 24px;
   padding: 16px 16px 32px;

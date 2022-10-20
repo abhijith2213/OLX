@@ -10,9 +10,18 @@ const Create = () => {
   const [category,setCategory] = useState('')
   const [price,setPrice] = useState('')
   const [image,setImage] = useState(null)
+  const [error, setError] = useState({})
   const history = useHistory()
   const date = new Date()
+
+  const datas = {
+    name,category,price,image
+  }
   const handleSubmit =()=>{
+
+    const error =validateData(datas)
+    setError(error)
+    if(Object.keys(error) == 0){
           firebase.storage().ref(`/image/${image.name}`).put(image).then(({ref})=>{
             ref.getDownloadURL().then((url)=>{
               console.log(url);
@@ -27,7 +36,28 @@ const Create = () => {
               history.push('/')
             })
           })
+        }
   }
+
+  const validateData=(datas)=>{
+const err={}
+    if(!datas.name){
+      err.name = 'Name is required'
+    }
+    if(!datas.category){
+      err.category = 'category is required'
+    }
+    if(!datas.price){
+      err.price = 'price is required'
+    }
+    if(!datas.image){
+      err.image = 'Provide a Image'
+    }
+
+    return err;
+
+  }
+
   return (
     <Fragment>
       <Header />
@@ -43,8 +73,10 @@ const Create = () => {
               id="fname"
               name="Name"
               defaultValue="John"
+              required
             />
-            <br />
+            <p className='error'>{error.name}</p>
+            
             <label htmlFor="fname">Category</label>
             <br />
             <input
@@ -55,22 +87,26 @@ const Create = () => {
               id="fname"
               name="category"
               defaultValue="John"
+              required
             />
-            <br />
+             <p className='error'>{error.category}</p>
+            
             <label htmlFor="fname">Price</label>
             <br />
             <input className="input" type="number"
             value={price}
             onChange={(e)=>setPrice(e.target.value)}
-            id="fname" name="Price" />
+            id="fname" name="Price" required/>
+             <p className='error'>{error.price}</p>
             <br />
-          <br />
-          <img alt="Posts" width="200px" height="200px" src={image ? URL.createObjectURL(image) : ''}></img>
+          
+          <img alt="Posts" width="200px" height="200px" src={image ? URL.createObjectURL(image) : ''} ></img>
             <br />
             <input onChange={(e)=>{
               setImage(e.target.files[0])
             }} type="file" />
-            <br />
+             <p className='error'>{error.image}</p>
+            
             <button onClick={handleSubmit} className="uploadBtn">upload and Submit</button>
         </div>
       </card>
